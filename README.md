@@ -1,3 +1,5 @@
+[![Ruby](https://github.com/osyo-manga/gem-rereline/actions/workflows/main.yml/badge.svg)](https://github.com/osyo-manga/gem-rereline/actions/workflows/main.yml)
+
 # Rereline
 
 reline library from scratch.
