@@ -8,8 +8,9 @@ on:
   pull_request:
 
 jobs:
-  build:
-    name: Ruby ${{ matrix.os }} ${{ matrix.ruby }}
+  rereline:
+    name: >-
+      rereline ${{ matrix.os }} ${{ matrix.ruby }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
