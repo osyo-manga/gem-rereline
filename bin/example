@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+require "rereline"
+
+prompt = 'prompt> '
+use_history = false
+
+puts Rereline.readline(prompt, use_history)
