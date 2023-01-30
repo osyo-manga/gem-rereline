@@ -15,7 +15,7 @@ module Rereline
       return if key.nil?
 
       @input_key_buffer << key
-      if (result = @input_key_buffer.map { _1.chr }.join.force_encoding(encoding)).valid_encoding?
+      if (result = @input_key_buffer.map(&:chr).join.force_encoding(encoding)).valid_encoding?
         input_char(result)
         @input_key_buffer.clear
       end

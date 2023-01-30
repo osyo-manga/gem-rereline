@@ -77,7 +77,7 @@ module Rereline
     # join(a, b)
     # => [[1, 2, :a, :b], [3, 4, :c, :d]]
     def join(a, b)
-      [a, b].transpose.map { _1.inject(&:+) }
+      [a, b].transpose.map { |it| it.inject(&:+) }
     end
   end
 end

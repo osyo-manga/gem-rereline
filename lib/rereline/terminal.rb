@@ -52,8 +52,8 @@ module Rereline
       extended_keys, matching_keys = key_stroke.expand(@input_key_buffer)
 
       @input_key_buffer = matching_keys
-      extended_keys.each {
-        editor.input_key(key_actor.call(_1))
+      extended_keys.each { |it|
+        editor.input_key(key_actor.call(it))
       }
       debug { editor.input_text }
       renader_editor
