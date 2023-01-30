@@ -10,14 +10,12 @@ Gem::Specification.new do |spec|
 
   spec.summary = "reline library from scratch."
   spec.description = "reline library from scratch."
-  spec.homepage = "https://example.com"
+  spec.homepage = "https://github.com/osyo-manga/gem-rereline"
   spec.required_ruby_version = ">= 2.6.0"
 
-  spec.metadata["allowed_push_host"] = "https://example.com"
-
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "https://example.com"
-  spec.metadata["changelog_uri"] = "https://example.com"
+  spec.metadata["source_code_uri"] = "https://github.com/osyo-manga/gem-rereline"
+  # spec.metadata["changelog_uri"] = "https://example.com"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
