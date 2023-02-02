@@ -22,7 +22,11 @@ module Rereline
 
     module Refine
       refine Kernel do
-        output =  File.open(ENV['RELINE_STDERR_TTY'], 'a') if ENV['RELINE_STDERR_TTY']
+        output = if ENV['RELINE_STDERR_TTY']
+                   File.open(ENV['RELINE_STDERR_TTY'], 'a')
+                 else
+                   $stdout
+                 end
         debugger = Debugger.new(output)
 
         define_method(:debug) do |*args, **kwd, &block|
