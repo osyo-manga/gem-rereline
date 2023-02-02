@@ -1,8 +1,8 @@
 require "reline"
+require_relative "./debugger.rb"
 require_relative "./line_editor.rb"
 require_relative "./key_stroke.rb"
 require_relative "./key_actor.rb"
-require_relative "./debugger.rb"
 
 
 module Rereline

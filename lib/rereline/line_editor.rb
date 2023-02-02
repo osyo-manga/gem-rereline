@@ -1,14 +1,17 @@
 module Rereline
   class LineEditor
-    attr_accessor :prompt, :encoding
-    attr_reader :input_text, :input_pos
+    using Debugger::Refine
+
+    attr_accessor :prompt, :encoding, :input_text
+    attr_reader :input_pos
 
     def initialize(&block)
       @input_text = ""
+      @input_pos = 0
       @encoding = Encoding.default_external
       block.call(self) if block
+      @input_text = @input_text.dup
       @input_key_buffer = []
-      @input_pos = 0
     end
 
     def input_key(key)
@@ -23,16 +26,17 @@ module Rereline
 
     def input_char(c)
       input_text.insert(input_pos, c)
-      @input_pos += 1
+      move_right
     end
 
     def delete_prev_input_pos
-      input_text.slice!(-1)
-      @input_pos -= 1
+      return if input_pos <= 0
+      input_text.slice!(input_pos - 1, 1)
+      move_left
     end
 
     def move_input_pos(offset)
-      @input_pos = (input_pos + offset).clamp(0, input_text.size)
+      self.input_pos = input_pos + offset
     end
 
     def move_left
@@ -41,6 +45,10 @@ module Rereline
 
     def move_right
       move_input_pos(+1)
+    end
+
+    def input_pos=(pos)
+      @input_pos = pos.clamp(0, input_text.size)
     end
 
     def prev_input_pos_line
