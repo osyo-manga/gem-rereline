@@ -55,7 +55,6 @@ module Rereline
       extended_keys.each { |it|
         editor.input_key(key_actor.call(it))
       }
-      debug { editor.input_text }
       renader_editor
     end
 

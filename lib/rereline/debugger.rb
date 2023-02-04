@@ -1,5 +1,3 @@
-# ENV["RELINE_STDERR_TTY"] = "/dev/pts/1"
-
 module Rereline
   class Debugger
     def initialize(output)
@@ -22,15 +20,15 @@ module Rereline
 
     module Refine
       refine Kernel do
-        output = if ENV['RELINE_STDERR_TTY']
-                   File.open(ENV['RELINE_STDERR_TTY'], 'a')
+        output = if ENV['RERELINE_DEBUG_OUTPUT_TTY']
+                   File.open(ENV['RERELINE_DEBUG_OUTPUT_TTY'], 'a')
                  else
                    $stdout
                  end
         debugger = Debugger.new(output)
 
         define_method(:debug) do |*args, **kwd, &block|
-          debugger.debug(*args, **kwd, &block)
+          debugger.debug(*args, **kwd, &block) if ENV["RERELINE_DEBUG"]
         end
       end
     end
