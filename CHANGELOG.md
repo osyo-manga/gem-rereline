@@ -6,10 +6,16 @@
 
 ### Bug fixes
 
-* Remove debug output.
-
 ### Changes
 
+
+## 0.1.2
+
+### New features
+
+### Bug fixes
+
+* Remove debug output.
 
 
 ### Changes
