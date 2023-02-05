@@ -1,6 +1,29 @@
+require_relative "./debugger.rb"
+
 module Rereline
   class LineEditor
     using Debugger::Refine
+
+    module Ex
+      refine String do
+        def grapheme_cluster_slice(*args)
+          self.grapheme_clusters.slice(*args).join
+        end
+
+        def grapheme_cluster_slice!(*args)
+          chars = self.grapheme_clusters
+          chars.slice!(*args)
+          replace(chars.join)
+        end
+
+        def grapheme_cluster_insert(*args)
+          chars = self.grapheme_clusters
+          chars.insert(*args)
+          replace(chars.join)
+        end
+      end
+    end
+    using Ex
 
     attr_accessor :prompt, :encoding, :input_text
     attr_reader :input_pos
@@ -25,13 +48,13 @@ module Rereline
     end
 
     def input_char(c)
-      input_text.insert(input_pos, c)
+      input_text.grapheme_cluster_insert(input_pos, c)
       move_right
     end
 
     def delete_prev_input_pos
       return if input_pos <= 0
-      input_text.slice!(input_pos - 1, 1)
+      input_text.grapheme_cluster_slice!(input_pos - 1, 1)
       move_left
     end
 
@@ -48,11 +71,11 @@ module Rereline
     end
 
     def input_pos=(pos)
-      @input_pos = pos.clamp(0, input_text.size)
+      @input_pos = pos.clamp(0, input_text.grapheme_clusters.count)
     end
 
     def prev_input_pos_line
-      "#{prompt}#{input_text.slice(0, input_pos)}"
+      "#{prompt}#{input_text.grapheme_cluster_slice(0, input_pos)}"
     end
 
     def line

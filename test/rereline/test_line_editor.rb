@@ -94,4 +94,23 @@ class Rereline::KeyStroke::Test < Test::Unit::TestCase
     assert_equal(1, editor.input_pos)
     assert_equal("あ🗻", editor.input_text)
   end
+
+  def test_combining_character
+    editor = Rereline::LineEditor.new { |editor|
+      editor.input_text = "àÅがçä"
+      editor.input_pos = 0
+    }
+
+    editor.move_right
+    editor.move_right
+    assert_equal("àÅ", editor.prev_input_pos_line)
+
+    editor.input_char("a")
+    editor.input_char("ご")
+    assert_equal("àÅaごがçä", editor.input_text)
+    assert_equal("àÅaご", editor.prev_input_pos_line)
+
+    (1..100).each { editor.move_right }
+    assert_equal(7, editor.input_pos)
+  end
 end

@@ -4,6 +4,9 @@
 
 ### New features
 
+* Add support combining character.
+    * e.g. `が` `à` `ä` .
+
 ### Bug fixes
 
 ### Changes
