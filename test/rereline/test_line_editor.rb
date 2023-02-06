@@ -113,4 +113,50 @@ class Rereline::KeyStroke::Test < Test::Unit::TestCase
     (1..100).each { editor.move_right }
     assert_equal(7, editor.input_pos)
   end
+
+  def test_backward_text
+    editor = Rereline::LineEditor.new { |editor|
+      editor.input_text = "がぎぐげご"
+    }
+
+    editor.input_pos = 0
+    assert_equal("", editor.backward_text)
+
+    editor.input_pos = 1
+    assert_equal("が", editor.backward_text)
+
+    editor.input_pos = 2
+    assert_equal("がぎ", editor.backward_text)
+
+    editor.input_pos = 100
+    assert_equal("がぎぐげご", editor.backward_text)
+  end
+
+  def test_forward_text
+    editor = Rereline::LineEditor.new { |editor|
+      editor.input_text = "がぎぐげご"
+    }
+
+    editor.input_pos = 0
+    assert_equal("がぎぐげご", editor.forward_text)
+
+    editor.input_pos = 1
+    assert_equal("ぎぐげご", editor.forward_text)
+
+    editor.input_pos = 2
+    assert_equal("ぐげご", editor.forward_text)
+
+    editor.input_pos = 100
+    assert_equal("", editor.forward_text)
+  end
+
+  def test_delete_backward_text
+    editor = Rereline::LineEditor.new { |editor|
+      editor.input_text = "がぎ abぐげご"
+      editor.input_pos = 7
+    }
+    assert_equal("abぐげ", editor.delete_backward_text(/\S+/))
+    assert_equal("がぎ ご", editor.input_text)
+    assert_equal(4, editor.input_pos)
+  end
 end

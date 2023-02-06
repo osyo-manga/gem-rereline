@@ -52,12 +52,6 @@ module Rereline
       move_right
     end
 
-    def delete_prev_input_pos
-      return if input_pos <= 0
-      input_text.grapheme_cluster_slice!(input_pos - 1, 1)
-      move_left
-    end
-
     def move_input_pos(offset)
       self.input_pos = input_pos + offset
     end
@@ -75,11 +69,30 @@ module Rereline
     end
 
     def prev_input_pos_line
-      "#{prompt}#{input_text.grapheme_cluster_slice(0, input_pos)}"
+      "#{prompt}#{backward_text}"
     end
 
     def line
       "#{prompt}#{input_text}"
+    end
+
+    def backward_text
+      input_text.grapheme_cluster_slice(...input_pos)
+    end
+
+    def forward_text
+      input_text.grapheme_cluster_slice(input_pos..)
+    end
+
+    def delete_prev_input_pos
+      return if input_pos <= 0
+      input_text.grapheme_cluster_slice!(input_pos - 1, 1)
+      move_left
+    end
+
+    def delete_backward_text(reg)
+      input_text.replace "#{backward_text.sub(/(#{reg})$/, "")}#{forward_text}"
+      $1.tap { move_input_pos(_1.grapheme_clusters.count) }
     end
   end
 end
