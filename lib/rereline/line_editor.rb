@@ -34,16 +34,16 @@ module Rereline
       @encoding = Encoding.default_external
       block.call(self) if block
       @input_text = @input_text.dup
-      @input_key_buffer = []
+      @input_byte_buffer = []
     end
 
-    def input_key(key)
+    def input_byte(key)
       return if key.nil?
 
-      @input_key_buffer << key
-      if (result = @input_key_buffer.map(&:chr).join.force_encoding(encoding)).valid_encoding?
+      @input_byte_buffer << key
+      if (result = @input_byte_buffer.map(&:chr).join.force_encoding(encoding)).valid_encoding?
         input_char(result)
-        @input_key_buffer.clear
+        @input_byte_buffer.clear
       end
     end
 
