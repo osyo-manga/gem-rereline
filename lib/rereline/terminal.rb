@@ -20,9 +20,10 @@ module Rereline
     end
     using Ex
 
-    attr_reader :editor, :key_actor, :key_stroke, :input, :output
+    attr_accessor :input, :output
+    attr_reader :editor, :key_actor, :key_stroke
 
-    def initialize(prompt, use_history)
+    def initialize(prompt, use_history, &block)
       @editor = LineEditor.new do |editor|
         editor.prompt = prompt
       end
@@ -31,12 +32,15 @@ module Rereline
       @input = $stdin
       @output = $stdout
       @input_key_buffer = []
+      yield self if block
     end
 
     def readline
       renader_editor
       loop do
-        input_key(getkey)
+        if input_key(getkey)
+          renader_editor
+        end
       end
     rescue Finish => e
       output.write "\n"
@@ -55,7 +59,7 @@ module Rereline
       extended_keys.each { |it|
         editor.input_key(key_actor.call(it))
       }
-      renader_editor
+      true
     end
 
     def renader_editor
