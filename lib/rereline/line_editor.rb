@@ -92,7 +92,7 @@ module Rereline
 
     def delete_backward_text(reg)
       input_text.replace "#{backward_text.sub(/(#{reg})$/, "")}#{forward_text}"
-      $1.tap { move_input_pos(_1.grapheme_clusters.count) }
+      $1.tap { |it| move_input_pos(it.grapheme_clusters.count) }
     end
   end
 end
