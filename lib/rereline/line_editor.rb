@@ -1,29 +1,10 @@
 require_relative "./debugger.rb"
+require_relative "./refine/string.rb"
 
 module Rereline
   class LineEditor
     using Debugger::Refine
-
-    module Ex
-      refine String do
-        def grapheme_cluster_slice(*args)
-          self.grapheme_clusters.slice(*args).join
-        end
-
-        def grapheme_cluster_slice!(*args)
-          chars = self.grapheme_clusters
-          chars.slice!(*args)
-          replace(chars.join)
-        end
-
-        def grapheme_cluster_insert(*args)
-          chars = self.grapheme_clusters
-          chars.insert(*args)
-          replace(chars.join)
-        end
-      end
-    end
-    using Ex
+    using Rereline::Refine::String
 
     attr_accessor :encoding, :input_text
     attr_reader :input_pos
