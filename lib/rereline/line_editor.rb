@@ -25,7 +25,7 @@ module Rereline
     end
     using Ex
 
-    attr_accessor :prompt, :encoding, :input_text
+    attr_accessor :encoding, :input_text
     attr_reader :input_pos
 
     def initialize(&block)
@@ -66,14 +66,6 @@ module Rereline
 
     def input_pos=(pos)
       @input_pos = pos.clamp(0, input_text.grapheme_clusters.count)
-    end
-
-    def prev_input_pos_line
-      "#{prompt}#{backward_text}"
-    end
-
-    def line
-      "#{prompt}#{input_text}"
     end
 
     def backward_text

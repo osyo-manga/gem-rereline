@@ -103,12 +103,12 @@ class Rereline::KeyStroke::Test < Test::Unit::TestCase
 
     editor.move_right
     editor.move_right
-    assert_equal("àÅ", editor.prev_input_pos_line)
+    assert_equal("àÅ", editor.backward_text)
 
     editor.input_char("a")
     editor.input_char("ご")
     assert_equal("àÅaごがçä", editor.input_text)
-    assert_equal("àÅaご", editor.prev_input_pos_line)
+    assert_equal("àÅaご", editor.backward_text)
 
     (1..100).each { editor.move_right }
     assert_equal(7, editor.input_pos)

@@ -21,12 +21,11 @@ module Rereline
     using Ex
 
     attr_accessor :input, :output
-    attr_reader :editor, :key_actor, :key_stroke
+    attr_reader :editor, :key_actor, :key_stroke, :prompt
 
     def initialize(prompt, use_history, &block)
-      @editor = LineEditor.new do |editor|
-        editor.prompt = prompt
-      end
+      @editor = LineEditor.new
+      @prompt = prompt
       @key_stroke = KeyStroke.new(KeyActor::MAPPING)
       @key_actor = KeyActor.new(editor)
       @input = $stdin
@@ -62,14 +61,22 @@ module Rereline
       true
     end
 
+    def line
+      "#{prompt}#{editor.input_text}"
+    end
+
+    def prev_input_pos_line
+      "#{prompt}#{editor.backward_text}"
+    end
+
     def renader_editor
       # Move cursor to left edge
       output.write "\e[#{0 + 1}G"
-      output.write editor.line
+      output.write line
       # Delete characters to right of cursor position (end of text)
       output.write "\e[K"
       # Adjust cursor position
-      output.write "\e[#{editor.prev_input_pos_line.displaywidth + 1}G"
+      output.write "\e[#{prev_input_pos_line.displaywidth + 1}G"
     end
 
     def getkey
