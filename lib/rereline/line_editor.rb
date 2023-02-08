@@ -77,7 +77,7 @@ module Rereline
     end
 
     def backward_text
-      input_text.grapheme_cluster_slice(...input_pos)
+      input_text.grapheme_cluster_slice(0...input_pos)
     end
 
     def forward_text
