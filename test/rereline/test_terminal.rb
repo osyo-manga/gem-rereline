@@ -10,13 +10,13 @@ class Rereline::Terminal::Test < Test::Unit::TestCase
 
   def assert_terminal_input_text(expected, input)
     terminal = Rereline::Terminal.new("", false)
-    input.bytes.each { terminal.send(:input_key, _1) }
+    input.bytes.each { |it| terminal.send(:input_key, it) }
     assert_equal(expected, terminal.editor.input_text)
   end
 
   def assert_terminal_input_pos(expected, input)
     terminal = Rereline::Terminal.new("", false)
-    input.bytes.each { terminal.send(:input_key, _1) }
+    input.bytes.each { |it| terminal.send(:input_key, it) }
     assert_equal(expected, terminal.editor.input_pos)
   end
 
