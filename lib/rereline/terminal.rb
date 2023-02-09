@@ -61,6 +61,10 @@ module Rereline
       true
     end
 
+    def input_text(text)
+      text.bytes.each { |it| send(:input_key, it) }
+    end
+
     def line
       "#{prompt}#{editor.input_text}"
     end
