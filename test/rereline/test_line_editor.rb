@@ -159,4 +159,58 @@ class Rereline::KeyStroke::Test < Test::Unit::TestCase
     assert_equal("がぎ ご", editor.input_text)
     assert_equal(4, editor.input_pos)
   end
+
+  def test_jump_backward_pos
+    editor = Rereline::LineEditor.new { |editor|
+      editor.input_text = "がぎab 23 ぐ 345foo 6 @@"
+      editor.input_pos = 18
+    }
+
+    editor.jump_backward_pos(/@/)
+    assert_equal("がぎab 23 ぐ 345foo 6", editor.backward_text)
+    assert_equal(18, editor.input_pos)
+
+    editor.jump_backward_pos(/\d/)
+    assert_equal("がぎab 23 ぐ 345foo ", editor.backward_text)
+    assert_equal(17, editor.input_pos)
+
+    editor.jump_backward_pos(/\d{2}/)
+    assert_equal("がぎab 23 ぐ 3", editor.backward_text)
+    assert_equal(11, editor.input_pos)
+
+    editor.jump_backward_pos(/\s/)
+    assert_equal("がぎab 23 ぐ", editor.backward_text)
+    assert_equal(9, editor.input_pos)
+
+    editor.jump_backward_pos(/ab/)
+    assert_equal("がぎ", editor.backward_text)
+    assert_equal(2, editor.input_pos)
+
+    editor.jump_backward_pos(/no match/)
+    assert_equal("がぎ", editor.backward_text)
+    assert_equal(2, editor.input_pos)
+  end
+
+  def test_jump_forward_pos
+    editor = Rereline::LineEditor.new { |editor|
+      editor.input_text = "がぎ ぐげ ご 12 aa 34 ご"
+      editor.input_pos = 3
+    }
+
+    editor.jump_forward_pos(/ぎ/)
+    assert_equal("ぐげ ご 12 aa 34 ご", editor.forward_text)
+    assert_equal(3, editor.input_pos)
+
+    editor.jump_forward_pos(/ご/)
+    assert_equal("ご 12 aa 34 ご", editor.forward_text)
+    assert_equal(6, editor.input_pos)
+
+    editor.jump_forward_pos(/\d{2}/)
+    assert_equal("12 aa 34 ご", editor.forward_text)
+    assert_equal(8, editor.input_pos)
+
+    editor.jump_forward_pos(/aa/)
+    assert_equal("aa 34 ご", editor.forward_text)
+    assert_equal(11, editor.input_pos)
+  end
 end

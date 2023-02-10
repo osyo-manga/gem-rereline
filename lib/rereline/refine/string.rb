@@ -17,6 +17,10 @@ module Rereline
           chars.insert(*args)
           replace(chars.join)
         end
+
+        def last_match(reg)
+          match(/(.*)#{reg}/)
+        end
       end
     end
   end

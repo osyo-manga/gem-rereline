@@ -67,5 +67,15 @@ module Rereline
       input_text.replace "#{backward_text.sub(/(#{reg})$/, "")}#{forward_text}"
       $1.tap { |it| move_input_pos(it.grapheme_clusters.count) }
     end
+
+    def jump_backward_pos(reg)
+      pos = backward_text.last_match(reg).to_a[1]&.grapheme_clusters&.count || input_pos
+      self.input_pos = pos
+    end
+
+    def jump_forward_pos(reg)
+      pos = forward_text.match(/(.*?)#{reg}/).to_a[1]&.grapheme_clusters&.count || 0
+      self.input_pos = input_pos + pos
+    end
   end
 end
