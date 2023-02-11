@@ -33,6 +33,10 @@ module Rereline
       move_right
     end
 
+    def input_char_count
+      input_text.grapheme_clusters.count
+    end
+
     def move_input_pos(offset)
       self.input_pos = input_pos + offset
     end
@@ -46,7 +50,7 @@ module Rereline
     end
 
     def input_pos=(pos)
-      @input_pos = pos.clamp(0, input_text.grapheme_clusters.count)
+      @input_pos = pos.clamp(0, input_char_count)
     end
 
     def backward_text

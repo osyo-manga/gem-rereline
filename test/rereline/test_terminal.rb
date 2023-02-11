@@ -6,6 +6,8 @@ require_relative "../test_helper.rb"
 class Rereline::Terminal::Test < Test::Unit::TestCase
   RIGHT_KEY = "\e[C"
   LEFT_KEY = "\e[D"
+  HOME_KEY = "\e[H"
+  END_KEY = "\e[F"
   BACKSPACE_KEY = "\x7F"
 
   def assert_terminal_input_text(expected, input)
@@ -54,6 +56,13 @@ class Rereline::Terminal::Test < Test::Unit::TestCase
     input = "がぎぐ#{LEFT_KEY}#{LEFT_KEY}#{RIGHT_KEY}げ#{LEFT_KEY}ご#{LEFT_KEY}"
     assert_terminal_input_text("がぎげごぐ", input)
     assert_terminal_input_pos(4, input)
+  end
+
+  def test_input_with_home_end
+    # with combining characters
+    input = "がぎぐ#{HOME_KEY}げ#{HOME_KEY}#{END_KEY}ご"
+    assert_terminal_input_text("げがぎぐご", input)
+    assert_terminal_input_pos(5, input)
   end
 
   def test_input_with_backspace

@@ -6,7 +6,9 @@ module Rereline
       [127] => [:BS],
       [13]  => [:CR],
       [27, 91, 67]  => [:RIGHT],
-      [27, 91, 68]  => [:LEFT]
+      [27, 91, 68]  => [:LEFT],
+      [27, 91, 70]  => [:END],
+      [27, 91, 72]  => [:HOME]
     }
 
     attr_reader :editor, :actors

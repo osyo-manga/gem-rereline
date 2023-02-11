@@ -13,6 +13,10 @@ module Rereline
           editor.move_left
         when :RIGHT
           editor.move_right
+        when :END
+          editor.input_pos = editor.input_char_count
+        when :HOME
+          editor.input_pos = 0
         end
       end
     end
