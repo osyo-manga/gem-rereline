@@ -1,10 +1,11 @@
 require_relative "./key_actor/move_cursor.rb"
+require_relative "./key_actor/delete_text.rb"
 
 module Rereline
   class KeyActor
     MAPPING = {
-      [127] => [:BS],
       [13]  => [:CR],
+      [127] => [:BS],
       [27, 91, 67]  => [:RIGHT],
       [27, 91, 68]  => [:LEFT],
       [27, 91, 70]  => [:END],
@@ -16,7 +17,8 @@ module Rereline
     def initialize(editor)
       @editor = editor
       @actors = [
-        MoveCursor.new(editor)
+        MoveCursor.new(editor),
+        DeleteText.new(editor)
       ]
     end
 
@@ -35,8 +37,6 @@ module Rereline
       case key
       when :CR
         raise Terminal::Finish.new(editor.input_text)
-      when :BS
-        editor.delete_prev_input_pos
       else
         actors.each { |actor|
           actor.call(key)
