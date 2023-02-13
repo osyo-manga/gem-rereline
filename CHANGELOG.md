@@ -6,6 +6,9 @@
 
 * Add support combining character.
     * e.g. `が` `à` `ä` .
+* Add support keys
+    * `Home`
+    * `End`
 
 ### Bug fixes
 
