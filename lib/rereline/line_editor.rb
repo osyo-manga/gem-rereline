@@ -37,6 +37,11 @@ module Rereline
       input_text.grapheme_clusters.count
     end
 
+    def replace(text)
+      self.input_text = text
+      self.input_pos = input_char_count
+    end
+
     def move_input_pos(offset)
       self.input_pos = input_pos + offset
     end

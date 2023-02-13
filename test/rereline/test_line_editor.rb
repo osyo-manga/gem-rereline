@@ -122,6 +122,14 @@ class Rereline::KeyStroke::Test < Test::Unit::TestCase
     assert_equal(12, editor.input_char_count)
   end
 
+  def test_replace
+    editor = Rereline::LineEditor.new
+
+    editor.replace "abcàÅがçäあæ⛄🗻"
+    assert_equal("abcàÅがçäあæ⛄🗻", editor.input_text)
+    assert_equal(12, editor.input_pos)
+  end
+
   def test_backward_text
     editor = Rereline::LineEditor.new { |editor|
       editor.input_text = "がぎぐげご"
