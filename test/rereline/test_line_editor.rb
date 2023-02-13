@@ -160,12 +160,16 @@ class Rereline::KeyStroke::Test < Test::Unit::TestCase
 
   def test_delete_backward_text
     editor = Rereline::LineEditor.new { |editor|
-      editor.input_text = "がぎ abぐげご"
-      editor.input_pos = 7
+      editor.input_text = " がぎ ab ぐげご"
+      editor.input_pos = 8
     }
-    assert_equal("abぐげ", editor.delete_backward_text(/\S+/))
-    assert_equal("がぎ ご", editor.input_text)
-    assert_equal(4, editor.input_pos)
+    assert_equal("がぎ", editor.delete_backward_text(/\S+/))
+    assert_equal("  ab ぐげご", editor.input_text)
+    assert_equal(6, editor.input_pos)
+
+    assert_equal(nil, editor.delete_backward_text(/not match/))
+    assert_equal("  ab ぐげご", editor.input_text)
+    assert_equal(6, editor.input_pos)
   end
 
   def test_jump_backward_pos
