@@ -9,8 +9,10 @@ module Rereline
 
       def call(key)
         case key
-        when :BS
+        when :DEL
           editor.delete_prev_input_pos
+        when :ETB
+          editor.delete_backward_text(/\S*\s*$/)
         end
       end
     end

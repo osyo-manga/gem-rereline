@@ -9,6 +9,7 @@
 * Add support keys
     * `Home`
     * `End`
+    * `Ctrl + w`
 
 ### Bug fixes
 

@@ -4,8 +4,9 @@ require_relative "./key_actor/delete_text.rb"
 module Rereline
   class KeyActor
     MAPPING = {
-      [13]  => [:CR],
-      [127] => [:BS],
+      [13]  => [:CR],     # ^M
+      [23]  => [:ETB],    # ^W
+      [127] => [:DEL],    # ^? (BackSpace)
       [27, 91, 67]  => [:RIGHT],
       [27, 91, 68]  => [:LEFT],
       [27, 91, 70]  => [:END],
