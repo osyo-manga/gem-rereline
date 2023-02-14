@@ -10,7 +10,8 @@ module Rereline
       [27, 91, 67]  => [:RIGHT],
       [27, 91, 68]  => [:LEFT],
       [27, 91, 70]  => [:END],
-      [27, 91, 72]  => [:HOME]
+      [27, 91, 72]  => [:HOME],
+      [27, 91, 51, 126]  => [:DEL_KEY]
     }
 
     attr_reader :editor, :actors

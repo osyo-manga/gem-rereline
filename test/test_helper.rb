@@ -15,21 +15,22 @@ class Rereline::TestCase
       key_actor_class.new(editor)
     end
 
-    def build_editor(text)
+    def build_editor(text, pos)
       Rereline::LineEditor.new { |editor|
         editor.replace text
+        editor.input_pos = pos if pos
       }
     end
 
-    def assert_key_actor_input_text(expected, text, key)
-      editor = build_editor(text)
+    def assert_key_actor_input_text(expected, key, text, pos = nil)
+      editor = build_editor(text, pos)
       actor = build_actor(editor)
       actor.call(key)
       assert_equal(expected, editor.input_text)
     end
 
-    def assert_key_actor_input_pos(expected, text, key)
-      editor = build_editor(text)
+    def assert_key_actor_input_pos(expected, key, text, pos = nil)
+      editor = build_editor(text, pos)
       actor = build_actor(editor)
       actor.call(key)
       assert_equal(expected, editor.input_pos)

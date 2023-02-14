@@ -8,6 +8,7 @@ class Rereline::Terminal::Test < Test::Unit::TestCase
   LEFT_KEY = "\e[D"
   HOME_KEY = "\e[H"
   END_KEY = "\e[F"
+  DEL_KEY = "\e[3~"
 
   CTRL_W_KEY = "\x17"
   BACKSPACE_KEY = "\x7F"
@@ -77,6 +78,10 @@ class Rereline::Terminal::Test < Test::Unit::TestCase
   def test_input_ctrl_char
     input = "がぎ ぐ  #{CTRL_W_KEY} げご  #{CTRL_W_KEY}"
     assert_terminal_input_text("がぎ  ", input)
+    assert_terminal_input_pos(4, input)
+
+    input = "がぎぐげご#{DEL_KEY}#{LEFT_KEY}#{DEL_KEY}"
+    assert_terminal_input_text("がぎぐげ", input)
     assert_terminal_input_pos(4, input)
   end
 
