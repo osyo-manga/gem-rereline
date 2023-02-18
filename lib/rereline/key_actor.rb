@@ -1,5 +1,8 @@
+require_relative "./key_actor/callback.rb"
 require_relative "./key_actor/move_cursor.rb"
 require_relative "./key_actor/delete_text.rb"
+require_relative "./key_actor/insert_char.rb"
+require_relative "./key_actor/finish.rb"
 
 module Rereline
   class KeyActor
@@ -20,30 +23,16 @@ module Rereline
       @editor = editor
       @actors = [
         MoveCursor.new(editor),
-        DeleteText.new(editor)
+        DeleteText.new(editor),
+        InsertChar.new(editor),
+        Finish.new(editor)
       ]
     end
 
     def call(input)
-      case input
-      when Symbol
-        editor_ctrl(input) && nil
-      else
-        input
-      end
-    end
-
-    private
-
-    def editor_ctrl(key)
-      case key
-      when :CR
-        raise Terminal::Finish.new(editor.input_text)
-      else
-        actors.each { |actor|
-          actor.call(key)
-        }
-      end
+      actors.each { |actor|
+        actor.call(input)
+      }
     end
   end
 end

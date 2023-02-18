@@ -1,13 +1,15 @@
 module Rereline
   class KeyActor
     class DeleteText
+      include KeyActor::Callback
+
       attr_reader :editor
 
       def initialize(editor)
         @editor = editor
       end
 
-      def call(key)
+      def on_key(key)
         case key
         when :DEL
           editor.delete_prev_input_pos

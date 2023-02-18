@@ -56,7 +56,7 @@ module Rereline
 
       @input_key_buffer = matching_keys
       extended_keys.each { |it|
-        editor.input_byte(key_actor.call(it))
+        key_actor.call(it)
       }
       true
     end
